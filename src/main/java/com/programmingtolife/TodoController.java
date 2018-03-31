@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("")
+@Path("t")
 public class TodoController {
 
     private Map<Integer, Todo> todoMap;
