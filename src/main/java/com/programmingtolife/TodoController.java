@@ -1,35 +1,38 @@
 package com.programmingtolife;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Path("todo")
 public class TodoController {
 
-    private Map<Integer, Todo> todoMap;
+    private Set<Todo> todoSet;
 
     public TodoController() {
-        todoMap = new HashMap<>();
+        todoSet = new HashSet<>();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Todo> getList(){
-        return new ArrayList<>(todoMap.values());
+        return todoSet.stream().collect(Collectors.toList());
     }
 
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Todo getTodoFromId(@PathParam("id") int id) {
-        return todoMap.get(id);
+        return todoSet.stream().filter(todo -> todo.getId() == id).findFirst().get();
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Todo addItem(Todo todoItem){
+        todoItem.setId(todoSet.size() + 1);
+        todoSet.add(todoItem);
+        return todoItem;
+    }
 }
