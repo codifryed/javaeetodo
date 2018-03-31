@@ -7,6 +7,7 @@ public class Todo {
     private String item;
     private boolean completed;
     private Integer order;
+    private int id;
 
     public Todo() {
     }
@@ -15,10 +16,11 @@ public class Todo {
         this.item = item;
     }
 
-    public Todo(String item, boolean completed, Integer order) {
+    public Todo(String item, boolean completed, Integer order, int id) {
         this.item = item;
         this.completed = completed;
         this.order = order;
+        this.id = id;
     }
 
     public String getItem() {
@@ -29,8 +31,17 @@ public class Todo {
         this.item = item;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public boolean isCompleted() {
         return nonNull(completed, false);
+
     }
 
     public void setCompleted(boolean completed) {
@@ -41,12 +52,12 @@ public class Todo {
         return nonNull(order, 0);
     }
 
-    private <T> T nonNull(T value, T defaultValue) {
-        return value == null ? defaultValue : value;
-    }
-
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    private <T> T nonNull(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 
     @Override
