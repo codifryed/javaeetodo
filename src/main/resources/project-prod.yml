@@ -1,0 +1,7 @@
+swarm:
+  undertow:
+    filter-configuration:
+      response-headers:
+        access-control-max-age:
+          header-name: Access-Control-Max-Age
+          header-value: 86400
