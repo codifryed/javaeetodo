@@ -1,10 +1,8 @@
 package com.programmingtolife;
 
-import java.util.Objects;
-
 public class Todo {
 
-    private String item;
+    private String title;
     private boolean completed;
     private Integer order;
     private int id;
@@ -12,23 +10,23 @@ public class Todo {
     public Todo() {
     }
 
-    public Todo(String item) {
-        this.item = item;
+    public Todo(String title) {
+        this.title = title;
     }
 
-    public Todo(String item, boolean completed, Integer order, int id) {
-        this.item = item;
+    public Todo(String title, boolean completed, Integer order, int id) {
+        this.title = title;
         this.completed = completed;
         this.order = order;
         this.id = id;
     }
 
-    public String getItem() {
-        return item;
+    public String getTitle() {
+        return title;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getId() {
@@ -77,7 +75,7 @@ public class Todo {
     @Override
     public String toString() {
         return "Todo{" +
-                "item='" + item + '\'' +
+                "title='" + title + '\'' +
                 ", completed=" + completed +
                 ", order=" + order +
                 '}';

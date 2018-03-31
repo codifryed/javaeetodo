@@ -30,9 +30,9 @@ public class TodoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo addItem(Todo todoItem){
-        todoItem.setId(todoSet.size() + 1);
-        todoSet.add(todoItem);
-        return todoItem;
+    public Todo addItem(Todo todo){
+        todo.setId(todoSet.size() + 1);
+        todoSet.add(todo);
+        return todo;
     }
 }
