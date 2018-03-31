@@ -65,13 +65,13 @@ public class Todo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Todo todo = (Todo) o;
-        return Objects.equals(item, todo.item);
+        return id != todo.id ? false : true;
     }
 
     @Override
     public int hashCode() {
 
-        return item.hashCode();
+        return id;
     }
 
     @Override
