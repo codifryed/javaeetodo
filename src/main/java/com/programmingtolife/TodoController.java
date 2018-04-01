@@ -17,7 +17,7 @@ public class TodoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Todo> getList(){
-        return todoSet.stream().collect(Collectors.toList());
+        return new ArrayList<>(todoSet); // todoSet.stream().collect(Collectors.toList());
     }
 
     @Path("{id}")
@@ -34,5 +34,10 @@ public class TodoController {
         todo.setId(todoSet.size() + 1);
         todoSet.add(todo);
         return todo;
+    }
+
+    @DELETE
+    public void deleteTodo(){
+        todoSet.removeIf(todo -> todo.getId() == todoSet.size());
     }
 }
