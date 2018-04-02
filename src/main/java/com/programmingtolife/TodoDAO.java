@@ -6,7 +6,7 @@ public interface TodoDAO {
 
     List<Todo> findAll();
 
-    Todo findById(long id);
+    Todo findById(int id);
 
     boolean remove(Todo todo);
 

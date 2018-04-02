@@ -27,7 +27,7 @@ public class TodoController {
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo getTodoFrom(@PathParam("id") long id) {
+    public Todo getTodoFrom(@PathParam("id") int id) {
         return todoDAO.findById(id);
     }
 

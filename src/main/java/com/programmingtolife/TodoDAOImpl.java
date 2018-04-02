@@ -24,13 +24,13 @@ public class TodoDAOImpl implements TodoDAO {
     }
 
     @Override
-    public Todo findById(long id) {
+    public Todo findById(int id) {
         return todoSet.stream().filter(todo -> todo.getId() == id).findFirst().get();
     }
 
     @Override
     public boolean remove(Todo todo) {
-        return false;
+        return todoSet.remove(todo);
     }
 
     @Override
