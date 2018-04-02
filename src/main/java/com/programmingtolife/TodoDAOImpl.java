@@ -35,7 +35,6 @@ public class TodoDAOImpl implements TodoDAO {
 
     @Override
     public Todo insert(Todo todo) {
-        todo.setId(todoSet.size() + 1);
         return todoSet.add(todo) ? todo : null;
     }
 

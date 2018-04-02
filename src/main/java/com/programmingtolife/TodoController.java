@@ -2,8 +2,13 @@ package com.programmingtolife;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Path("todo")
 public class TodoController {
@@ -11,12 +16,13 @@ public class TodoController {
     @Inject
     private TodoDAO todoDAO;
 
-//    private Set<Todo> todoSet;
+    @Context
+    private UriInfo uriInfo;
 
-//    public TodoController() {
-//        todoSet = new HashSet<>();
-////        todoSet.add(new Todo("todo",false,1,1));
-//    }
+    @Context
+    private SecurityContext securityContext;
+
+    private static AtomicInteger currentMaxId = new AtomicInteger(1);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -24,8 +30,8 @@ public class TodoController {
         return todoDAO.findAll();
     }
 
-    @Path("{id}")
     @GET
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Todo getTodoFrom(@PathParam("id") int id) {
         return todoDAO.findById(id);
@@ -34,7 +40,9 @@ public class TodoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo addTodo(Todo todo){
+    public Todo addTodo(final Todo todo){
+        todo.setId(currentMaxId.getAndIncrement());
+        todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
         return todoDAO.insert(todo);
     }
 

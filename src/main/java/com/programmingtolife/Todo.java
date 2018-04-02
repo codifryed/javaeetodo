@@ -1,11 +1,14 @@
 package com.programmingtolife;
 
+import java.net.URI;
+
 public class Todo {
 
     private String title;
     private boolean completed;
     private Integer order;
     private int id;
+    private URI url;
 
     public Todo() {
     }
@@ -14,11 +17,12 @@ public class Todo {
         this.title = title;
     }
 
-    public Todo(String title, boolean completed, Integer order, int id) {
+    public Todo(String title, boolean completed, Integer order, int id, URI url) {
         this.title = title;
         this.completed = completed;
         this.order = order;
         this.id = id;
+        this.url = url;
     }
 
     public String getTitle() {
@@ -35,6 +39,14 @@ public class Todo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public URI getUrl() {
+        return url;
+    }
+
+    public void setUrl(URI url) {
+        this.url = url;
     }
 
     public boolean isCompleted() {
