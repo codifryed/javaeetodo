@@ -1,43 +1,45 @@
 package com.programmingtolife;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Path("todo")
 public class TodoController {
 
-    private Set<Todo> todoSet;
+    @Inject
+    private TodoDAO todoDAO;
 
-    public TodoController() {
-        todoSet = new HashSet<>();
-    }
+//    private Set<Todo> todoSet;
+
+//    public TodoController() {
+//        todoSet = new HashSet<>();
+////        todoSet.add(new Todo("todo",false,1,1));
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Todo> getList(){
-        return new ArrayList<>(todoSet); // todoSet.stream().collect(Collectors.toList());
+    public List<Todo> getAllTodos(){
+        return todoDAO.findAll();
     }
 
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo getTodoFromId(@PathParam("id") int id) {
-        return todoSet.stream().filter(todo -> todo.getId() == id).findFirst().get();
+    public Todo getTodoFrom(@PathParam("id") long id) {
+        return todoDAO.findById(id);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo addItem(Todo todo){
-        todo.setId(todoSet.size() + 1);
-        todoSet.add(todo);
-        return todo;
+    public Todo addTodo(Todo todo){
+        return todoDAO.insert(todo);
     }
 
     @DELETE
-    public void deleteTodo(){
-        todoSet.removeIf(todo -> todo.getId() == todoSet.size());
+    public void deleteAllTodos(){
+        todoDAO.findAll().forEach(todo -> todoDAO.remove(todo));
     }
 }
