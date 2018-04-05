@@ -18,26 +18,30 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
+        <!--<version.wildfly.swarm>2018.3.3</version.wildfly.swarm>-->
+        <!--<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>-->
+        <!--<package.file>${project.build.directory}/${project.artifactId}.zip</package.file>-->
+        <!--<packaging.type>usr</packaging.type>-->
+        <!--<openliberty.runtime.version>18.0.0.1</openliberty.runtime.version>-->
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${version.wildfly.swarm}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <!--<dependencyManagement>-->
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>org.wildfly.swarm</groupId>-->
+                <!--<artifactId>bom</artifactId>-->
+                <!--<version>${version.wildfly.swarm}</version>-->
+                <!--<scope>import</scope>-->
+                <!--<type>pom</type>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
+    <!--</dependencyManagement>-->
 
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -45,84 +49,67 @@
             <artifactId>postgresql</artifactId>
             <version>9.4.1212</version>
         </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>microprofile</artifactId>
-        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.wildfly.swarm</groupId>-->
-            <!--<artifactId>bom</artifactId>-->
-            <!--<version>${version.wildfly.swarm}</version>-->
-            <!--<scope>import</scope>-->
-            <!--<type>pom</type>-->
+            <!--<artifactId>microprofile</artifactId>-->
         <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.wildfly.swarm</groupId>-->
-            <!--<artifactId>jaxrs</artifactId>-->
-            <!--<version>${version.wildfly.swarm}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.wildfly.swarm</groupId>-->
-            <!--<artifactId>ejb</artifactId>-->
-            <!--<version>${version.wildfly.swarm}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish</groupId>-->
-            <!--<artifactId>javax.el-impl</artifactId>-->
-            <!--<version>3.0.1-b08-jbossorg-1</version>-->
-        <!--</dependency>-->
-
     </dependencies>
 
     <build>
         <finalName>javaeetodo</finalName>
         <plugins>
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<version>3.7.0</version>-->
-                <!--<configuration>-->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<version>3.2.0</version>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash;<warSourceDirectory>target</warSourceDirectory>&ndash;&gt;-->
-                    <!--<warName>javaeetodo</warName>-->
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
-                <!--</configuration>-->
+                <!--<groupId>org.wildfly.swarm</groupId>-->
+                <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
+                <!--<version>${version.wildfly.swarm}</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>package</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
             <!--</plugin>-->
             <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly.swarm}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <install>
+                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/beta/wlp-beta-2018.3.0.0.zip</runtimeUrl>
+                    </install>
+                    <!--<assemblyArtifact>-->
+                        <!--<groupId>io.openliberty</groupId>-->
+                        <!--<artifactId>openliberty-runtime</artifactId>-->
+                        <!--<version>${openliberty.runtime.version}</version>-->
+                        <!--<type>zip</type>-->
+                    <!--</assemblyArtifact>-->
+                    <serverName>${project.artifactId}Server</serverName>
+                    <!--<stripVersion>true</stripVersion>-->
+                    <configFile>src/main/liberty/config/server.xml</configFile>
+                    <!--<packageFile>${package.file}</packageFile>-->
+                    <!--<include>${packaging.type}</include>-->
+                    <bootstrapProperties>
+                        <default.http.port>${env.PORT}</default.http.port>
+                        <default.https.port>${env.PORT}</default.https.port>
+                        <app.context.root>${project.artifactId}</app.context.root>
+                        <appLocation>../../../../../${project.build.finalName}</appLocation>
+                    </bootstrapProperties>
+                </configuration>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>package-server</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>package-server</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<outputDirectory>target/wlp-package</outputDirectory>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
             </plugin>
         </plugins>
     </build>
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>jboss-public-repository-group</id>-->
-            <!--<name>JBoss Public Repository Group</name>-->
-            <!--<url>https://repository.jboss.org/nexus/content/groups/public/</url>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-                <!--<updatePolicy>never</updatePolicy>-->
-            <!--</releases>-->
-            <!--<snapshots>-->
-                <!--<enabled>true</enabled>-->
-                <!--<updatePolicy>daily</updatePolicy>-->
-            <!--</snapshots>-->
-        <!--</repository>-->
-    <!--</repositories>-->
+
 </project>

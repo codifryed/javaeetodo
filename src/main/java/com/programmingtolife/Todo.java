@@ -66,6 +66,15 @@ public class Todo {
         this.order = order;
     }
 
+    public Todo update(Todo newTodo) {
+        return new Todo(nonNull(newTodo.title, title),
+                nonNull(newTodo.completed, completed),
+                nonNull(newTodo.order, order),
+                id,
+                nonNull(newTodo.url, url)
+                );
+    }
+
     private <T> T nonNull(T value, T defaultValue) {
         return value == null ? defaultValue : value;
     }
@@ -92,6 +101,5 @@ public class Todo {
                 ", order=" + order +
                 '}';
     }
-
 
 }

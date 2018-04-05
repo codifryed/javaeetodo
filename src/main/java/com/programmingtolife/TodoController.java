@@ -2,10 +2,7 @@ package com.programmingtolife;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,5 +46,25 @@ public class TodoController {
     @DELETE
     public void deleteAllTodos(){
         todoDAO.findAll().forEach(todo -> todoDAO.remove(todo));
+    }
+
+    @PATCH
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTodo(@PathParam("id") int id, Todo todo) {
+
+        if (todo == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        todo.setId(id);
+        Todo updatedTodo = todoDAO.update(todo);
+
+        if (updatedTodo == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(updatedTodo).build();
     }
 }

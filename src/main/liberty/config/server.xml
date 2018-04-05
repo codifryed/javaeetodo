@@ -1,0 +1,17 @@
+<server description="Java EE Todo Liberty server">
+    <featureManager>
+        <feature>webProfile-8.0</feature>
+        <!--<feature>jaxrs-2.1</feature>-->
+        <!--<feature>cdi-2.0</feature>-->
+        <!--<feature>jsonb-1.0</feature>-->
+        <!--<feature>jsonp-1.1</feature>-->
+        <!--<feature>jpa-2.2</feature>-->
+        <!--<feature>appSecurity-3.0</feature>-->
+        <!--<feature>beanValidation-2.0</feature>-->
+    </featureManager>
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                  id="defaultHttpEndpoint" host="*" />
+    <!--<webApplication location="javaeetodo.war" contextRoot="${app.context.root}"/>-->
+    <application name="todo" context-root="/"
+                 location="${appLocation}" type="war" />
+</server>

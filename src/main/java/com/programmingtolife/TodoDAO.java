@@ -12,4 +12,5 @@ public interface TodoDAO {
 
     Todo insert(Todo todo);
 
+    Todo update(Todo todo);
 }
