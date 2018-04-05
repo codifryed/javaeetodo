@@ -43,9 +43,13 @@ public class TodoController {
 
     @DELETE
     @Path("{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteTodoFrom(@PathParam("id") int id) {
-        todoDAO.remove(todoDAO.findById(id));
+    public Response deleteTodoFrom(@PathParam("id") int id) {
+        Todo todo = todoDAO.findById(id);
+        if (todo==null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        todoDAO.remove(todo);
+        return Response.ok().build();
     }
 
     @POST
