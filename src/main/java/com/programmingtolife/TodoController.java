@@ -36,6 +36,18 @@ public class TodoController {
         return todoDAO.findById(id);
     }
 
+    @DELETE
+    public void deleteAllTodos(){
+        todoDAO.findAll().forEach(todo -> todoDAO.remove(todo));
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteTodoFrom(@PathParam("id") int id) {
+        todoDAO.remove(todoDAO.findById(id));
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,11 +55,6 @@ public class TodoController {
         todo.setId(currentMaxId.getAndIncrement());
         todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
         return todoDAO.insert(todo);
-    }
-
-    @DELETE
-    public void deleteAllTodos(){
-        todoDAO.findAll().forEach(todo -> todoDAO.remove(todo));
     }
 
     @PATCH
