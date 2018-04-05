@@ -1,5 +1,6 @@
 package com.programmingtolife;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Path("todo")
+@RequestScoped
 public class TodoController {
 
     @Inject
@@ -37,7 +39,7 @@ public class TodoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo addTodo(final Todo todo){
+    public Todo addTodo(Todo todo){
         todo.setId(currentMaxId.getAndIncrement());
         todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
         return todoDAO.insert(todo);
