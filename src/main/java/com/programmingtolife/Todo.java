@@ -4,10 +4,10 @@ import java.net.URI;
 
 public class Todo {
 
+    private int id;
     private String title;
     private boolean completed;
     private Integer order;
-    private int id;
     private URI url;
 
     public Todo() {
@@ -17,11 +17,11 @@ public class Todo {
         this.title = title;
     }
 
-    public Todo(String title, boolean completed, Integer order, int id, URI url) {
+    public Todo(int id, String title, boolean completed, Integer order, URI url) {
+        this.id = id;
         this.title = title;
         this.completed = completed;
         this.order = order;
-        this.id = id;
         this.url = url;
     }
 
@@ -67,10 +67,10 @@ public class Todo {
     }
 
     public Todo update(Todo newTodo) {
-        return new Todo(nonNull(newTodo.title, title),
+        return new Todo(id,
+                nonNull(newTodo.title, title),
                 nonNull(newTodo.completed, completed),
                 nonNull(newTodo.order, order),
-                id,
                 nonNull(newTodo.url, url)
                 );
     }
@@ -84,7 +84,7 @@ public class Todo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Todo todo = (Todo) o;
-        return id != todo.id ? false : true;
+        return id == todo.id;
     }
 
     @Override

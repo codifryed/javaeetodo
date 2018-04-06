@@ -32,8 +32,13 @@ public class TodoController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo getTodoFrom(@PathParam("id") int id) {
-        return todoDAO.findById(id);
+    public Response getTodoFrom(@PathParam("id") int id) {
+        Todo todo = todoDAO.findById(id);
+        if (todo == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            return Response.ok(todo).build();
+        }
     }
 
     @DELETE
@@ -45,20 +50,25 @@ public class TodoController {
     @Path("{id}")
     public Response deleteTodoFrom(@PathParam("id") int id) {
         Todo todo = todoDAO.findById(id);
-        if (todo==null) {
+        if (todo == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            todoDAO.remove(todo);
+            return Response.ok().build();
         }
-        todoDAO.remove(todo);
-        return Response.ok().build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Todo addTodo(Todo todo){
-        todo.setId(currentMaxId.getAndIncrement());
-        todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
-        return todoDAO.insert(todo);
+    public Response addTodo(Todo todo){
+        if (todo == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } else {
+            todo.setId(currentMaxId.getAndIncrement());
+            todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
+            return Response.ok(todoDAO.insert(todo)).build();
+        }
     }
 
     @PATCH

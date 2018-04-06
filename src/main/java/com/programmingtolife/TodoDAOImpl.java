@@ -22,7 +22,12 @@ public class TodoDAOImpl implements TodoDAO {
 
     @Override
     public Todo findById(int id) {
-        return lookupTodoFrom(id).get();
+        Optional<Todo> todo = lookupTodoFrom(id);
+        if (todo.isPresent()) {
+            return todo.get();
+        } else {
+            return null;
+        }
     }
 
     private Optional<Todo> lookupTodoFrom(int id) {
@@ -42,14 +47,13 @@ public class TodoDAOImpl implements TodoDAO {
     @Override
     public Todo update(Todo newTodo) {
         Optional<Todo> originalTodo = lookupTodoFrom(newTodo.getId());
-        Todo updatedTodo = null;
         if (!originalTodo.isPresent()) {
-            return updatedTodo;
+            return null;
         }
 
         todoSet.remove(originalTodo.get());
 
-        updatedTodo = originalTodo.get().update(newTodo);
+        Todo updatedTodo = originalTodo.get().update(newTodo);
 
         todoSet.add(updatedTodo);
 
