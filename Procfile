@@ -1,1 +1,1 @@
-web: java -jar lib/payara-micro-5.181.jar --deploy target/ROOT.war --port $PORT
+web: java -jar lib/payara-micro-5.181.jar --deploy target/ROOT.war --sslPort $PORT
