@@ -66,7 +66,9 @@ public class TodoController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         } else {
             todo.setId(currentMaxId.getAndIncrement());
-            todo.setUrl(URI.create(uriInfo.getRequestUri().toString() + "/" + todo.getId()));
+            String url = uriInfo.getRequestUri().toString() + "/" + todo.getId();
+            url = url.replace("http","https");
+            todo.setUrl(URI.create(url));
             return Response.ok(todoDAO.insert(todo)).build();
         }
     }
